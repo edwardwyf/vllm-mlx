@@ -162,6 +162,8 @@ class QwenToolParser(ToolParser):
                 )
             if func_matches:
                 cleaned_text = self.FUNCTION_PATTERN.sub("", cleaned_text).strip()
+                # Strip empty <tool_call> wrappers left behind after function removal
+                cleaned_text = re.sub(r'<tool_call>\s*</tool_call>', '', cleaned_text).strip()
 
         if tool_calls:
             return ExtractedToolCallInformation(
